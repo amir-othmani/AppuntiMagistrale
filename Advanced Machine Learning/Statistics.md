@@ -84,11 +84,69 @@ P(X|Y) = Fraction of worlds in which X event is true given Y event is true.
 
 Formula: $$ P(a|b) = \frac{P(a,b)}{P(b)} $$
 Conditional distribution is just a marginal distribution at the end of the day.
+>[!info]
+> NB: $P(a,b)$ is equivalent to $P(a \cap b)$.
 
 ## Bayes' rule
 
 Formula: $$ P(x|y) = \frac{P(y|x)}{P(y)} P(x) $$
 As we'll discover later, this rule allows us to calculate a (maybe) difficult conditional probability using an easier conditional probability.
+>[!info]
 > Sometimes inverting cause and effect can make calculations easier.
 
-(CONTINUE FROM PAGE 44)
+## Independence
+
+Two events are called **independent** if they don't contain information about each other.
+For instance, if we consider two events X and Y, they are independent if X doesn't affect the probability of Y to happen and vice versa (example: throwing two coins).
+
+If two events are independent these equations are valid: $$ P(X,Y) = P(X)P(Y)$$ $$P(X|Y) = P(X) $$
+Examples:
+- **Independent**: Winning on roulette this week and next week.
+- **Dependent**: Russian roulette.
+
+### Conditionally independent
+
+Two events are **conditionally independent** if knowing that a third event happened makes the first two independent.
+For instance: $$P(X,Y|Z) = P(X|Z)P(Y|Z)$$
+which means that if we know Z happened, then X and Y are independent (i.e., X doesn't affect Y probability and vice versa).
+
+## Model based classification with Naive Bayes
+
+Let's say we have a $X = (X_1 \ X_2\ ...\ X_d)$ dataset and we want to predict the class label of $Y$; in other words, we want to find the function $y=f(x)$.
+
+Example:
+![[Pasted image 20251006091304.png]]
+
+In order to make that prediction we can use Bayes formula: $$ P(x|y) = \frac{P(y|x)}{P(y)} P(x) $$
+Generally speaking:
+- Estimating $P(y)$ is easy.
+- Estimating $P(x|y)$ , however, is not easy!
+	- To make it easier, we can assume that all the attributes (e.g., the $X_i$ events) are independent given the class label $Y$ (e.g., **conditionally independent**).
+
+Naive Bayes classifier properties:
+- It's computationally very fast
+	- Training: only one pass over the training set.
+	- Classification: linear in the number of attributes (features).
+- Despite its conditional independence assumption, Naïve Bayes classifier shows a good performance in several application domains.
+- When to use?
+	- A moderate or large training set available with instances represented by a large number of attributes.
+
+## Laplace smoothing
+
+It might happen that an attribute never appears for a specific class. That can cause problems because some events would look impossible or certain even if it might not be true (let's say it's extremely unlikely to happen).
+
+For example:
+![[Pasted image 20251006093047.png]]
+
+So, a simple solution is adding the missing attribute(s) (e.g., adding another row to the table) so we don't have anymore probabilities equal to 0 or 1.
+
+## Discriminative vs Generative learning
+
+Many supervised learning can be viewed as estimating $P(X,Y)$. Generally thy fall into two categories:
+- When we estimate $P(X,Y)=P(X|Y)P(Y)$ then we call it generative learning.
+- When we only estimate $P(Y|X)$ then we call it discriminative learning.
+![[Pasted image 20251006093732.png]]
+
+## Maximum a Posteriori (MAP) & Bayesian Learning
+
+(page 68)
