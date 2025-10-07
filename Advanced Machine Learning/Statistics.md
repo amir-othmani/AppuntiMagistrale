@@ -94,6 +94,21 @@ As we'll discover later, this rule allows us to calculate a (maybe) difficult co
 >[!info]
 > Sometimes inverting cause and effect can make calculations easier.
 
+### Bayes' rule important implications
+
+In certain conditions, the Bayes' rule has also this form: $$P(x|y) \propto P(y|x)P(x)$$
+where:
+- **x** is the **hypothesis**;
+- **y** is the **evidence**.
+
+In this context, all of the three probabilities have specific names:
+- $P(x|y)$ is called **posterior** probability.
+	- In other words, this is the probability that a certain cause happened given a certain effect we could observe.
+- $P(y|x)$ is called **likelihood**.
+	- In other words, this is the probability that a certain effect will happen given a certain cause.
+- $P(x)$ is called **prior** probability.
+	- In other words, this is the probability that a certain cause might happen in general.
+
 ## Independence
 
 Two events are called **independent** if they don't contain information about each other.
@@ -149,4 +164,73 @@ Many supervised learning can be viewed as estimating $P(X,Y)$. Generally thy fal
 
 ## Maximum a Posteriori (MAP) & Bayesian Learning
 
-(page 68)
+When we perform **Bayesian learning**, we are trying to evaluate the probability of an unknown quantity, given some observed data, by using a set of hypothesis.
+In other words, we're performing this calculation: $$P(X|d) = \sum\limits_i P(X|h_i)P(h_i|d)$$
+where:
+- **b** is the observed data;
+- **X** is the unknown quantity;
+- $\bf{h_i}$ is one of the hypotheses.
+
+So, the probability we're looking for is just a linear combination of the probabilities for each hypothesis.
+
+If we decide to perform **Maximum a Posteriori (MAP)**, we perform an approximation of that probability by taking into account only $h_{MAP}$, which is the hypothesis that has the highest probability among the others.
+Therefore: $$P(X|d) \approx P(X|h_{MAP})$$
+>[!info]
+>This approximation is justified by Naive Bayes and the fact that the probabilities taken into account are conditionally independent.
+
+## Independent and Identically distributed (i.i.d.)
+
+This is an assumption we may make where:
+1. The events are **independent from each other**, thus: $$P(E_j|E_{j-1}, E_{j-2},...) = P(E_j)$$
+2. The events are **identically distributed**, meaning that they have the same probability, so: $$P(E_j)= P(E_{j-1})=P(E_{j_2})=...$$
+The iid assumption connects the past to the future, without some such connections, all the bets are off and the future could be anything.
+## Maximum A Posteriori → Maximum Likelihood (ML)
+
+Given this formula: $$P(y|x) \propto P(x|y)P(y)$$
+>[!warning]
+>Careful, this time **y** is the hypothesis and **x** is the evidence.
+
+The prior can be used to penalize complexity, since more complex hypotheses will have lower probability.
+Anyway, if we consider hypotheses that have all the same probability, then the maximum posterior is found with the **maximum likelihood**.
+This approach provides a good approximation to Bayesian and MAP learning when the data set is large.
+## Continuous Random Variables
+
+A random variable X is continuous if its set of possible values is an entire interval of numbers.
+
+Example:
+![[Pasted image 20251007120136.png]]
+
+>[!warning]
+>**Remember**:
+>- The **x** axis represents the possible values.
+>- The **y** axis represents the frequency for each value.
+
+>[!personal note]
+>I'm skipping the rest
+
+## How good is the estimator?
+
+Consider two properties of the estimator:
+- **Bias**, which is the distance between the estimate and the true value.
+- **Variance**, which indicates how many different values there are around the mean.
+
+![[Pasted image 20251007122312.png]]
+
+## The bias
+
+The bias for an estimator $\hat \theta_m$ for parameter $\theta$ is defined as: $$bias(\hat\theta_m) = E[\hat\theta_m]-\theta$$
+where $E$ stands for estimated(?).
+The estimator is unbiased if $bias(\hat\theta_m) = 0$.
+
+## The variance
+
+The variance indicates how much we expect the estimator to vary as a function of data samples.
+The variance of an estimator is simply Var($\hat\theta$) where the random variable is the training set.
+If two estimators of a parameters are both unbiased, the best is the one with the least amount of variability (because it's more efficient).
+
+The square root of the variance is called the **standard error**, denoted as SE($\hat\theta$).
+ SE($\hat\theta$) measures how we would expect the estimate to vary as we obtained  different samples from the same distribution.
+## Mean Squared Error
+
+Let $\hat\theta$ be the estimator for an unknown parameter $\theta$. The **Mean Squared Error (MSE)** is defined as: $$MSE(\hat\theta)=E[(\hat\theta-\theta)^2]$$
+There's also the **Mean Absolute Error**, which is: $$MAE(\hat\theta)=E[|\hat\theta-\theta|]$$
