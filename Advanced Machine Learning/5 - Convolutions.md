@@ -98,4 +98,27 @@ $$ (f\star g)[n]=\sum\limits^\infty_{k=-\infty} f[k]g[n-k] $$
 
 >[!note] Personal note
 >Read the slides for this part and what's next, it's better to jump directly on next chapter.
+>PS: I changed my mind, I'll write something but very minimal.
+
+Shift-invariance is implemented via **convolutional operators**.
+
+The complexity in this technique is $O(1)$, which is a huge gain compared to MLP.
+
+Filter weights are applied across the entire image, this is known as **weight sharing**.
+
+
+## Pooling
+
+Pooling is just a technique in which we reduce the amount of data by applying some operations to the original data (could be max, min, sum, average or whatever).
+
+Example:
+![[Pasted image 20251022090433.png]]
+
+## Key properties of CNN
+
+- Convolutional filters **(translation equivariance)**.
+- Multiple layers **(compositionality)**
+- Filters localized in space **(locality)**
+- Weight sharing **(self-similarity)**
+- $O(1)$ parameters per filter (independent of image size $n$).
 
