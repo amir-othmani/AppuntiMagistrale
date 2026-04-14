@@ -36,4 +36,50 @@ They are used when many outputs x are possible for an input y and so we instead 
 >I'm skipping explicit density estimation.
 
 # Autoencoders
-(page 80)
+Autoencoders have this architecture:
+![[Pasted image 20260316091859.png]]
+
+It is an unsupervised approach for learning a lower-dimensional feature representation from unlabeled training data.
+
+>[!note]
+>z is usually smaller than x (dimensionality reduction).
+
+![[Pasted image 20260316093136.png]]
+
+>[!note] Personal note
+>These slides are so garbage omg.
+
+![[Pasted image 20260316093219.png]]
+
+Autoencoders can reconstruct data, and can learn features to initialize a supervised model.
+
+## Variational autoencoders
+Probabilistic spin on autoencoders - will let us sample from the model to generate data!
+![[Pasted image 20260316093803.png]]
+
+Intuition (remember from autoencoders!): x is an image, z is latent factors used to
+generate x: attributes, orientation, etc.
+
+We want to estimate the true parameters θ* of this generative model.
+
+How should we represent this model?
+
+Choose prior p(z) to be simple, e.g. Gaussian. Reasonable for latent attributes, e.g. pose, how much smile.
+Conditional p(x|z) is complex (generates image) => represent with neural network.
+
+Learn model parameters to maximize likelihood of training data:
+$$ p_\theta(x) = \int p_\theta(z)p_\theta(x|z)dz $$
+
+![[Pasted image 20260316095354.png]]
+
+This is not feasible to compute for every z.
+
+Thus, the solution is to approximate $p_\theta(x|z)$ with an additional encoder network $q\_phi(z|x)$.
+
+![[Pasted image 20260316095642.png]]
+
+![[Pasted image 20260316095714.png]]
+
+>[!todo]
+>I give up, fuck this shit.
+

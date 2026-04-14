@@ -1,7 +1,7 @@
 # Basic statistics
 
 We generally want to use machine learning for one of these goals:
-- **diagnosys**
+- **diagnosis**
 - **anomaly detection**
 - **reinforcement learning**
 - **recommender system**.
@@ -15,10 +15,10 @@ All of these goals are hindered by **uncertainty**, more specifically:
 
 ## Sample spaces
 
-A **sample space** Ω is the set of all possible outcomes of a random experiment. (Ω can be finite or infinite.)
+A **sample space** Ω is the set of all the possible outcomes of a random experiment. (Ω can be finite or infinite.)
 
 Examples:
-- Rolling a dice: {1,2,3,4,5,6}
+- Rolling a die: {1,2,3,4,5,6}
 - Flipping a coin: {H, T}
 - Flipping a coin three times: {HHH, HHT, HTH, HTT, THH, THT, TTH, TTT}
 - A person’s age: the positive integers
@@ -83,7 +83,9 @@ Example:
 P(X|Y) = Fraction of worlds in which X event is true given Y event is true.
 
 Formula: $$ P(a|b) = \frac{P(a,b)}{P(b)} $$
-Conditional distribution is just a marginal distribution at the end of the day.
+Example:
+![[Pasted image 20260414080909.png]]
+
 >[!info]
 > NB: $P(a,b)$ is equivalent to $P(a \cap b)$.
 
@@ -114,7 +116,7 @@ In this context, all of the three probabilities have specific names:
 Two events are called **independent** if they don't contain information about each other.
 For instance, if we consider two events X and Y, they are independent if X doesn't affect the probability of Y to happen and vice versa (example: throwing two coins).
 
-If two events are independent these equations are valid: $$ P(X,Y) = P(X)P(Y)$$ $$P(X|Y) = P(X) $$
+If two events are independent, these equations are valid: $$ P(X,Y) = P(X)P(Y)$$ $$P(X|Y) = P(X) $$
 Examples:
 - **Independent**: Winning on roulette this week and next week.
 - **Dependent**: Russian roulette.
@@ -148,16 +150,18 @@ Naive Bayes classifier properties:
 
 ## Laplace smoothing
 
-It might happen that an attribute never appears for a specific class. That can cause problems because some events would look impossible or certain even if it might not be true (let's say it's extremely unlikely to happen).
+It might happen that an attribute never appears for a specific class. That can cause problems because some events would look impossible or certain even if it might not be true.
 
 For example:
 ![[Pasted image 20251006093047.png]]
+
+In this dataset, the wind is always strong but in the reality it could be also weak.
 
 So, a simple solution is adding the missing attribute(s) (e.g., adding another row to the table) so we don't have anymore probabilities equal to 0 or 1.
 
 ## Discriminative vs Generative learning
 
-Many supervised learning can be viewed as estimating $P(X,Y)$. Generally thy fall into two categories:
+Many supervised learning tasks can be viewed as estimating $P(X,Y)$. Generally they fall into two categories:
 - When we estimate $P(X,Y)=P(X|Y)P(Y)$ then we call it generative learning.
 - When we only estimate $P(Y|X)$ then we call it discriminative learning.
 ![[Pasted image 20251006093732.png]]
@@ -167,7 +171,7 @@ Many supervised learning can be viewed as estimating $P(X,Y)$. Generally thy fal
 When we perform **Bayesian learning**, we are trying to evaluate the probability of an unknown quantity, given some observed data, by using a set of hypothesis.
 In other words, we're performing this calculation: $$P(X|d) = \sum\limits_i P(X|h_i)P(h_i|d)$$
 where:
-- **b** is the observed data;
+- **d** is the observed data;
 - **X** is the unknown quantity;
 - $\bf{h_i}$ is one of the hypotheses.
 
@@ -205,9 +209,6 @@ Example:
 >- The **x** axis represents the possible values.
 >- The **y** axis represents the frequency for each value.
 
->[!personal note]
->I'm skipping the rest
-
 ## How good is the estimator?
 
 Consider two properties of the estimator:
@@ -222,11 +223,16 @@ The bias for an estimator $\hat \theta_m$ for parameter $\theta$ is defined as: 
 where $E$ stands for estimated(?).
 The estimator is unbiased if $bias(\hat\theta_m) = 0$.
 
+Three examples of estimators:
+- Estimator for Bernoulli mean
+- Estimator for Gaussian mean
+- Estimator for Gaussian variance
+
 ## The variance
 
 The variance indicates how much we expect the estimator to vary as a function of data samples.
-The variance of an estimator is simply Var($\hat\theta$) where the random variable is the training set.
-If two estimators of a parameters are both unbiased, the best is the one with the least amount of variability (because it's more efficient).
+The variance of an estimator is simply Var($\hat\theta$), where the random variable is the training set.
+If two estimators of a parameter are both unbiased, the best is the one with the least amount of variability (because it's more efficient).
 
 The square root of the variance is called the **standard error**, denoted as SE($\hat\theta$).
  SE($\hat\theta$) measures how we would expect the estimate to vary as we obtained  different samples from the same distribution.

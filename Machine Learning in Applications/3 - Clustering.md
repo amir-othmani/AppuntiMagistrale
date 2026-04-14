@@ -95,4 +95,88 @@ To get the desired number of clusters, we just need to choose the max threshold 
 ![[fig_3-5.png]]
 
 # Density-based clustering
-(continue from page 66)
+## Mean shift clustering
+It is based on the concept of **kernel density estimation (KDE)**.
+The data points (i.e. the feature vectors of the data to be clusterized) are interpreted as they were sampled from a probability distribution. KDE is a
+method to estimate the underlying probability distribution.
+
+## Kernel density estimation
+It works by placing a **kernel** (i.e. a weighting function) on each point of the dataset in the feature space. Adding all of the individual kernels up generates a probability surface (e.g., density function).
+$$ \hat f_h(x) = \frac1{nh} \sum\limits_{i=1}^n K(\frac{x-x_i}h) $$
+
+The most popular kernel function is the Gaussian kernel:
+$$ K(\frac{x-x_i}h)=\frac1{\sqrt{2\pi}}e^{-\large\frac{(x-x_i)^2}{2h^2}} $$
+
+## From KDE to clustering
+Mean shift exploits this KDE idea by imagining what the points would do if they all climbed up hill to the nearest peak on the KDE surface.
+It does so by iteratively shifting each point uphill until it reaches a peak.
+Hence, all the points are clustered depending on the peak they are shifted to.
+
+## Mean shift clustering
+The mean shift algorithm seeks modes of the given set of points:
+1. Choose a kernel and a bandwidth value
+2. For each point:
+	- Center a (density estimator) window on that point
+	- Compute the mean shift vector m of the data in the search window
+	- Move the density estimation window by m
+	- Repeat (b,c) until convergence
+3. Assign points that lead to the same mode to the same cluster.
+
+Pros:
+- There is no need to apriori decide the number of clusters
+- Robust to outliers
+- Quite flexible, no assumptions on the data distribution
+Cons:
+- Computationally intensive
+- Not feasible for high-dimensional dataset
+- Results depend on kernel/bandwith
+
+## DBSCAN
+DBSCAN is a density-based algorithm.
+- Density = number of points within a specified radius (Eps)
+- A point is a **core point** if it has more than a specified number of points (MinPts) within Eps.
+	- These points are in the interior of a cluster.
+- A **border point** has fewer than MinPts within Eps, but is in the neighborhood of a core point.
+- A **noise point** is any point that is not a core point or a border point.
+
+![[fig_3-6.png]]
+
+The algorithm works in this way:
+1) Label all points as core, border, or noise points.
+2) Eliminate noise points.
+3) Put an edge between all core points that are within Eps of each other.
+4) Make each group of connected core points into a separate cluster.
+5) Assign each border point to one of the clusters of its associated core points.
+
+Pros:
+- DBSCAN is resistant to noise.
+- It can handle clusters of different shapes and sizes.
+Cons:
+- DBSCAN doesn't work well when there are varying densities and/or high-dimensional data.
+
+# Assessing clustering validity
+Since there is no supervision there is no universal way to tell the quality of the clustering.
+So, there are many different types of clustering validation:
+1. Determining the clustering tendency of a set of data, i.e., distinguishing whether non-random structure actually exists in the data.
+2. Comparing the results of a cluster analysis to externally known results, e.g., to externally given class labels.
+3. Evaluating how well the results of a cluster analysis fit the data without reference to external information.
+	- Use only the data
+4. Comparing the results of two different sets of cluster analyses to determine which is better.
+5. Determining the ‘correct’ number of clusters.
+
+For 2, 3, and 4, we can further distinguish whether we want to evaluate the entire clustering or just individual clusters.
+
+Numerical measures used to judge various aspects of cluster validity are classified into the following three types:
+- **External index**: Measures extent to which cluster labels match externally supplied class labels.
+- **Relative index**: Compares two different clusterings or clusters.
+	- Often an external or internal index is used for this purpose.
+- **Internal index**: Measures the “goodness” of a clustering structure without respect to external information.
+	- Correlation
+	- Visualize similarity matrix
+	- Sum of Squared Error (SSE)
+	- Cohesion and Separation
+	- Silhouette
+
+>[!todo]
+>From page 93 to the end just read the slides.
+
