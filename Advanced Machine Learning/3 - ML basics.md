@@ -61,8 +61,11 @@ To address this issue, we can make this assumption: all the data $(x_1, y_1)...(
 ![[Pasted image 20251009093238.png]]
 
 This assumption is the connection between what we've seen in the past to what we expect to see in the future.
->[!personal note]
->How? I don't know.
+>[!note]
+>By that, it means that the IID condition can guarantee that the model can learn something useful from the past (i.e., the training data) to predict the future (and the prediction quality will be evaluated with the test data).
+>The IID condition is important because:
+>1) **identical**: it ensures that the new data will not be too different from training data (otherwise the model wouldn't be able to learn anything);
+>2) **independent**: it makes less likely that the model finds correlations that don't exist in reality.
 
 # Empirical risk
 
@@ -71,7 +74,7 @@ Training data $S={(x_1, y_1)...(x_m, y_m)}\in (X\times Y)^m$ is an i.i.d. sample
 A learning algorithm takes $S$ as input and returns a predictor $h: X\rightarrow Y$.
 
 Now, we can calculate the **empirical risk** $R_S$ over this sample of data. $$R_S(h)=\frac1m\sum\limits^m_{i=1}\Bbb 1[h(x_i)\not =y_i]$$
-In other words, it's the sum of the loss function for each piece of data. In fact the formula can be also written in this way: $$R_S(h)=\frac1m\sum^m_{i=1}L(h(x_i),y_i)$$
+In other words, it's the average of the loss function for each piece of data. In fact the formula can be also written in this way: $$R_S(h)=\frac1m\sum^m_{i=1}L(h(x_i),y_i)$$
 >[!info]
 >Basically, the key difference between true and empirical risk is the fact that $R_D$ takes as input random elements from all the existent data, while $R_S$ takes as input random elements from only the training data (which is a small sample of all the existent data).
 
@@ -91,7 +94,7 @@ So, we're fine with $R_D(h)\le\varepsilon$, where $\varepsilon$ is user-specifie
 Recall that the input to the learner is randomly generated.
 There's always a (very small) chance to see the same example again and again.
 
-So, the problem is: no algorithm can guarantee $R_D(h)\le\varepsilon$.
+So, the problem is: no algorithm can always guarantee $R_D(h)\le\varepsilon$.
 Then, we can adopt this solution: we allow the algorithm to fail with probability $\delta$, where $\delta\in(0,1)$ is user-specified.
 
 # Probably Approximately Correct (PAC) Learning
@@ -117,7 +120,7 @@ And the data we have is this:
 The green curve is the correct regression (we can use it as a sort of ground truth).
 
 So, our goal is to choose the correct maximum degree (M) for our polynomial.
-Let's what happens in different cases:
+Let's see what happens in different cases:
 - **M=0**:
   the curve will look like this
   ![[Pasted image 20251010101913.png | 500]]
@@ -142,9 +145,9 @@ This function shows this concept:
 
 **Definition**: When the predictor has excellent performance on the training set, but its performance on the true "world" is very poor.
 
-Hence, overfitting is not about noise nor about having training error 0, but about the fact that training error and true error are two different things.
+Hence, overfitting is not about noise nor about having training error 0, but it's about the fact that training error and true error are two different things.
 
-They behave similarly only under certain condition, for example, if we have many samples compared to the number of hypotheses.
+They behave similarly only under certain conditions, for example, if we have many samples compared to the number of hypotheses.
 
 # Cross validation
 
@@ -223,7 +226,7 @@ A loss function $L: y\times y\to \Bbb R$ maps decisions to costs: $L(\hat y, y)$
 $$L_{0/1}(\hat y, y)= \begin{cases} 0\quad \hat y = y \\ 1 \quad otherwise \end{cases}$$
 
 **Standard choice for regression**: squared loss.
-$$L(\hat y, y) = (\hat y = y)^2$$
+$$L(\hat y, y) = (\hat y - y)^2$$
 >[!warning]
 >Squared loss it's obviously not the only possible chance for regression.
 
@@ -231,7 +234,7 @@ $$L(\hat y, y) = (\hat y = y)^2$$
 
 We consider a parametric function $h_W(x)$.
 
-The empirical loss of function $y=h_W(x)$ on a set $S$: $$L_S(W) = \frac1N \sum\limits_{i=1}^N L(h_W(x_i), y_i)$$
+The empirical loss of function $y=h_W(x)$ on a set $S$ is: $$L_S(W) = \frac1N \sum\limits_{i=1}^N L(h_W(x_i), y_i)$$
 The goal is to find an ERM with respect to this loss function.
 
 ## Linear Predictors in 1d
@@ -281,6 +284,7 @@ There are some operations but the result is: $$\|y-Xw\|_2^2$$
 >1. The $\|.\|_2$ notation is the **Euclidean Norm**, which corresponds to this: $$\|v\|_2=\sqrt{v_1^2+v_2^2+...+v_m^2}$$.
 >2. The $(.)^2$ notation means you just square the result of the Euclidean norm and, thus, you obtain: $$\|v\|_2^2=v_1^2+v_2^2+...+v_m^2$$.
 
+(CONTINUE FROM HERE)
 ## Least Squares via Calculus
 
 From calculus point of view, least squares criterion is just a convex function of $\bf w$. So, it is sufficient to find the $\bf w$ where the gradient is zero.
