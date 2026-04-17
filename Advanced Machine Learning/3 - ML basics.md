@@ -284,7 +284,6 @@ There are some operations but the result is: $$\|y-Xw\|_2^2$$
 >1. The $\|.\|_2$ notation is the **Euclidean Norm**, which corresponds to this: $$\|v\|_2=\sqrt{v_1^2+v_2^2+...+v_m^2}$$.
 >2. The $(.)^2$ notation means you just square the result of the Euclidean norm and, thus, you obtain: $$\|v\|_2^2=v_1^2+v_2^2+...+v_m^2$$.
 
-(CONTINUE FROM HERE)
 ## Least Squares via Calculus
 
 From calculus point of view, least squares criterion is just a convex function of $\bf w$. So, it is sufficient to find the $\bf w$ where the gradient is zero.
@@ -319,9 +318,29 @@ We can then simply change the model to $y=w_0+w_1x$.
 
 And we can still use least squares to determine $w_0$ and $w_1$:
 $$w_0=\frac{\sum\limits_iy_i-w_1x_i}n \qquad \qquad w_1= \frac{\sum\limits_i x_i(y_i-w_0)}{\sum\limits_ix_i^2}$$
->[!note] Personal note
->I'm skipping to page 59 because this is too much.
 
+### Add regularization (Ridge regression)
+
+**Ridge regression** is a technique to prevent the model from overfitting by adding a regularization term. This regularization term prevents the model from becoming too complex.
+
+This is the standard approach when it comes to preventing overfitting and it's particularly useful for a small number of samples (N) and large vector dimensionality (d).
+
+Formula:
+$$ w=(X^TX+\alpha I)^{-1}X^Ty $$
+
+### Beyond Linear Models: Polynomial Regression
+
+We can easily learn non-linear predictors in the same way.
+
+Take a look on a generic polynomial regression:
+$$ \hat y= f(x)=b+w_1x+w_2x^2+...+w_mx^m $$
+
+This is not a linear model, but it's still linear with respect to the weights (b, w1, ... , wm), hence the model can learn using Least Square.
+
+>[!note]
+>This is because Least Squares manipulates the weights in order to minimize the error.
+
+(CONTINUE FROM HERE)
 # Use a regression model for classification
 
 What if we want to predict a category instead of a value?
