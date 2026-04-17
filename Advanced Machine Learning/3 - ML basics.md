@@ -340,7 +340,6 @@ This is not a linear model, but it's still linear with respect to the weights (b
 >[!note]
 >This is because Least Squares manipulates the weights in order to minimize the error.
 
-(CONTINUE FROM HERE)
 # Use a regression model for classification
 
 What if we want to predict a category instead of a value?
