@@ -352,14 +352,31 @@ So instead, we'll modify the loss to minimize over categorical values directly.
 
 # Logistic regression
 
-The new loss function is (PLEASE REPLACE THE IMAGE WHENEVER IT'S POSSIBLE):
-![[Pasted image 20251015210647.png]]
+Logistic regression is an alternative to linear regression that can be more effective, but it is also more complex.
 
-![[Pasted image 20251015211000.png]]
+A typical example is **logistic sigmoid**:
+![[Pasted image 20260418153607.png]]
+Which values can go in (0,1) range.
 
-![[Pasted image 20251015211026.png]]
+The loss function would be:
+$$ \ell_\Theta(\{x_i, y_i\})=\sum\limits_{i=1}^n (y_i-\sigma(ax_i+b)^2) $$
+
+The problem is the function $ax_i+b$ is not convex, so the loss is extremely hard to optimize.
+
+So, it is possible to adopt a different loss function by introducing a cost function that is convex:
+
+$$ \ell_\Theta(\{x_i, y_i\})=\sum\limits_{i=1}^n c(x_i,y_i) $$
+with:
+$$ c(x_i, y_i)=\begin{cases}
+-\ln(\sigma(ax_i+b))\qquad \quad y_i=1 \\
+-\ln(1-\sigma(ax_i+b)) \quad \ y_i=0
+\end{cases}
+$$
 
 ## What was the loss in SVM?
+
+>[!note] Personal note
+>I honestly don't see how the professor can ever ask about this in the exam
 
 ![[Pasted image 20251015211345.png]]
 
