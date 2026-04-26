@@ -2,7 +2,7 @@
 
 ![[Pasted image 20251022092118.png]]
 
-## Batch normalization
+# Batch normalization
 
 We want to normalize the outputs of a layer so they have zero mean and unit variance.
 
@@ -10,20 +10,29 @@ Why? It helps reducing "internal covariate shift", so it improves optimization.
 
 We can normalize a batch of activations like this:
 $$ \hat x=\frac{x-E[x]}{\sqrt{Var[x]}} $$
-This is a **differentiable function**, so we can use it as on operator in our networks and backprop through it.
+This is a **differentiable function**, so we can use it as an operator in our networks and backprop through it.
 
 We also compute the empirical mean and variance independently for each dimension:
 - $\mu_j=\frac1N\sum\limits_{i=1}^N x_{i,j}$
 - $\sigma_j^2=\frac1N\sum\limits_{i=1}^N(x_{i,j}-\mu_j)^2$
 - $\hat x_{i,j}=\Large\frac{x_{i,j}-\mu_j}{\sqrt{\sigma_j^2+\varepsilon}}$
 
->[!note] Personal note
->I don't know if these formulas mean anything but here's the screenshot.
->![[Pasted image 20251022104713.png]]
+>[!warning]
+>There's an issue though, this type of normalization is completely made by hand and this can be sub-optimal since we can't assume we always know the best normalization setting.
 
+>[!todo] solution
+>We allow the model learn some parameters to tune the normalization with, according to this function:
+>$$ y^{(k)}=\gamma^{(k)}\hat x^{(k)}+\beta^{(k)} $$
+>
+>where:
+>- $\gamma^{(k)} = \sqrt{Var[x^{(k)}]}$
+>- $\beta^{(k)}=E[x^{(k)}]$
+>- both of them are learnable parameters
+
+To sum up, for each mini-batch we need to compute all of this:
 ![[Pasted image 20251022115537.png]]
 
-Batch normalization:
+Using batch normalization has some benefits:
 - Improves gradient flow through the network
 - Allows higher learning rates
 - Reduces the strong dependence on initialization
@@ -42,7 +51,7 @@ It also:
 It also behaves differently during training and testing: this is a very common source of bugs.
 
 
-## Activation functions
+# Activation functions
 
 ![[Pasted image 20251022131148.png]]
 
@@ -55,12 +64,16 @@ These are the most common variation functions:
 $$ \sigma(x)=\frac1{1+e^{-x}} $$
 
 They squash numbers to range [0,1].
-Sigmoid functions are since they have nice interpretation as a saturating “firing rate” of a neuron.
+Sigmoid functions are popular since they have nice interpretation as a saturating “firing rate” of a neuron.
 
 3 problems:
 1. Saturated neurons “kill” the gradients.
 2. Sigmoid outputs are not zero-centered.
 3. exp() is a bit compute expensive.
+
+>[!info]
+>A neuron is said to be **_saturated_** when extremely large weights cause the neuron to produce values (_gradients_) that are very close to the range boundary.
+
 
 ### tanh(x)
 
@@ -136,13 +149,24 @@ x \qquad\qquad\qquad\quad if\ \ x>0\\
 
 ![[Pasted image 20251022172428.png]]
 
-Consider what happens when the input to a neuron (x) is always positive:
-$$ f\bigg(\sum\limits_i w_ix_i+b\bigg) $$
-The gradients on w are always either all positives or all negatives.
-This doesn't happen when we have zero-mean data and that's why this property is so important.
+Consider what happens if all the features (x) are always positive:
+$$ f=\sum\limits_i w_ix_i+b \qquad x_i>0$$
+When we perform backpropagation we compute the gradient of the loss w.r.t. the weights:
+$$ \frac{dL}{dw_i}=\frac{dL}{df}\frac{df}{dw_i} $$
+>[!info]
+>Keep in mind that $\frac{dL}{df}$ is the registered increase or decrease in loss
 
-Visual example:
+But, since $\frac{df}{dw_i}=x_i$, we obtain:
+$$ \frac{dL}{dw_i}=\frac{dL}{df}x_i $$
+And so, if $x_i>0$ for all the features, then $\frac{dL}{dw_i}$ must have the same sign as $\frac{dL}{df}$, but since $\frac{dL}{df}$ is the same for all the weights, then all the gradients of each weight must have the same sign as well.
+The consequence is that the weights are dependent on each other, since they all have to move either in a positive direction or in a negative direction, and so they are not free to move in the optimal direction but they are forced to move in a zig-zag way.
+This is an example with two weights:
 ![[Pasted image 20251022173113.png | 400]]
+
+If we instead had some $x_i>0$ and some $x_i<0$, this problem wouldn't happen because the some weights can have a positive gradient and some can have a negative gradient.
+
+>[!todo] Solution
+>This is achieved only when the data is **zero-mean**.
 
 In practice, we may also see **PCA** and **Whitening** of the data:
 ![[Pasted image 20251022173344.png]]
@@ -251,8 +275,19 @@ For example, with **batch normalization**:
 
 ## Data augmentation
 
+Data augmentation is another regularization technique. It consists in adding some noise to the data in order to prevent overfitting.
+
+Some of these techniques are:
+- changing the image contrast or luminosity;
+- flipping (horizontally or vertically);
+- random crops and scales;
+- color jitter;
+- rotating;
+- stretching;
+- etc.
+
 >[!note] Personal note
->I don't know what to get from this part. See from page 78 to page 92 on the slides.
+>There are some example of this from page 78 to page 92 on the slides.
 
 # Training neural networks
 
@@ -280,6 +315,57 @@ For example, with **batch normalization**:
 
 # Hyperparameter optimization
 
->[!note] Personal note
->Check the slides from page 105 to the end. I got a bit fed up about this lecture.
+## Choosing hyperparameters: grid search
 
+Choose several values for each hyperparameter (often space choices log-linearly).
+
+Example:
+Weight decay: $[1\times10^{-4}, 1\times10^{-3}, 1\times10^{-2}, 1\times10^{-1}]$
+Learning rate: $[1\times10^{-4}, 1\times10^{-3}, 1\times10^{-2}, 1\times10^{-1}]$
+
+We evaluate all of these possible choices on the **hyperparameter grid**.
+
+## Choosing hyperparameters: random search
+
+Choose several values for each hyperparameter (often space choices log-linearly).
+
+Example:
+Weight decay: log-uniform on $[1\times10^{-4}, 1\times10^{-1}]$
+Learning rate: log-uniform on $[1\times10^{-4}, 1\times10^{-1}]$
+
+Run many different trials.
+
+## Random vs grid search
+
+![[Pasted image 20260426093319.png]]
+
+## Choosing hyperparameters: best practice
+
+### Step 1: check initial loss
+Turn off weight decay, sanity check loss at initialization.
+
+### Step 2: overfit a small sample
+Try to train to 100% training accuracy on a small sample of training data (~5-10 minibatches); fiddle with architecture, learning rate, weight initialization. Turn off regularization.
+
+Loss not going down? LR too low, bad initialization.
+Loss explodes to Inf or NaN? LR too high, bad initialization.
+
+### Step 3: find LR that makes loss go down
+Use the architecture from the previous step, use all training data, turn on small weight decay, find a learning rate that makes the loss drop significantly within ~100 iterations.
+
+Good learning rates to try: 1e-1, 1e-2, 1e-3, 1e-4.
+
+### Step 4: coarse grid, train for ~1-5 epochs
+Choose a few values of learning rate and weight decay around what worked from step 3, train a few models for ~1-5 epochs.
+
+Good weight decay to try: 1e-4, 1e-5, 0.
+
+### Step 5: refine grid, train longer
+Pick best models from step 4, train for longer (~10-20 epochs) without learning rate decay.
+
+### Step 6: look at learning curves
+>[!note]
+>Look the slides from page 117 to page 123 for this part. There are only images basically.
+
+### Step 7: GOTO step 5
+Basically repeat until you find the optimal solution.

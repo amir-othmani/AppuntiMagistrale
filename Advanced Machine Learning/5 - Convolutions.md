@@ -23,8 +23,8 @@ However:
 - They're very difficult to **optimize**.
 - It's very difficult to achieve **generalization**.
 
->[!question]
->What do you mean "It's very difficult to achieve **generalization**"? Aren't those neural networks universal???
+>[!note]
+>By "very difficult to achieve generalization" it means that a complex model can easily overfit if we don't pay attention and that kills generalization.
 
 In order to face these problems, we need additional **priors** (e.g., some additional prior info).
 
@@ -114,6 +114,15 @@ Pooling is just a technique in which we reduce the amount of data by applying so
 Example:
 ![[Pasted image 20251022090433.png]]
 
+>[!note]
+>Keep in mind in this specific example the feature map is obtained by applying the filter with its center cell multiplied by the corresponding cell of the input data, which is then summed with the adjacent cells multiplied.
+>For instance, the top-left cell of the input data (which is 3) will be multiplied by the center cell (which is 1) and summed with the other cells with the filter.
+>So:
+>$$ F_{1,1} = 3*1+3*0+3*0+3*1 = 3+3 = 6 $$
+>
+>While, for example:
+>$$ F_{3,3} = 3*1+2*0+1*1+3*0+2*1+1*0+3*1+3*0+2*1 = 3+1+2+3+2 = 11 $$
+
 ## Key properties of CNN
 
 - Convolutional filters **(translation equivariance)**.
@@ -121,4 +130,36 @@ Example:
 - Filters localized in space **(locality)**
 - Weight sharing **(self-similarity)**
 - $O(1)$ parameters per filter (independent of image size $n$).
+
+# Fully connected layer
+
+It's actually very simple:
+![[Pasted image 20260420102927.png]]
+
+The fully connected layer simply calculates the dot product between the input and the weights.
+
+# Convolution layer
+
+The convolution layer is more complex and it always involves a filter.
+The output of the layer is called **activation map** and it is produced by a dot product between input and filter.
+
+Example:
+![[Pasted image 20260420103448.png]]
+
+But actually we can apply multiple filters, so we can obtain multiple activation maps and stack them in the same output:
+![[Pasted image 20260420103619.png]]
+
+## Stride
+
+>[!todo]
+>Read from page 59 to page 73 for this part, taking screenshots is just not worth it.
+
+## Pooling layer
+- It makes the representations smaller and more manageable.
+- It operates over each activation map independently.
+
+![[Pasted image 20260420104101.png]]
+
+Example with max pooling:
+![[Pasted image 20260420104247.png]]
 

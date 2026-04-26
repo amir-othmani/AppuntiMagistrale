@@ -3,6 +3,7 @@
 Gradient descent is a **first-order** iterative minimization algorithm. The general idea is to move where the function decreases the most.
 
 Let's take an example of loss function: $\ell_\Theta : \Bbb R^2 \to \Bbb R$
+![[Pasted image 20260419091346.png]]
 
 The steps are:
 1. Start from some point $\Theta^{(0)}\in \Bbb R^2$.
@@ -87,7 +88,7 @@ $$ x^{(t+1)}=x^{(0)}+\alpha\sum\limits_{i=1}^t \Gamma_i^t \nabla f(x^{(i)}) \qqu
 
 Gradient descent can be applied to **non-convex** problems too, but without optimality guarantees.
 
-So, in order to gain generalization, we don't care about the **global** optimum, but we mainly focus on a **local** optimum that's good enough.
+So, in order to gain generalization, we don't care about the **global** optimum, but we mainly focus on a **local** optimum that is good enough.
 
 >[!info]
 >Generally speaking, we're interested in solutions that are **efficient** and **numerically stable**.
@@ -194,6 +195,8 @@ Example:
 The perceptron algorithm is pretty powerful: if the dataset is linearly seperable, the perceptron will find a separating hyperplane in a **finite number of updates**.
 However, if the dataset is not linearly seperable, then the perceptron will **loop forever**.
 
+### Problems with perceptron
+
 >[!note] Personal note
 >I don't know how to go further without getting into infinite and useless details, so I'll just put this screenshot: ![[Pasted image 20251018154404.png]]
 
@@ -223,6 +226,8 @@ Recall perceptron:
 - A weight vector for each class: $w_y$.
 - Score (activation) of a class y: $w_y\cdot x$.
 - Prediction highest score wins: $y=\arg \max_y w_y\cdot x$.
+
+![[Pasted image 20260419093134.png]]
 
 And the activation functions become:
 $$

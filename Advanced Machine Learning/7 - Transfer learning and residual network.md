@@ -2,7 +2,7 @@
 
 Train multiple independent models and, at test time, average their results.
 
-In this way you achieved 2% extra performance.
+In this way you can achieve 2% extra performance.
 
 ## Tips and tricks
 
@@ -15,7 +15,16 @@ The core idea of this technique is to make the model use previously learned know
 
 ## Transfer learning with CNN
 
-![[Pasted image 20251025113340.png]]![[Pasted image 20251025113702.png]]
+![[Pasted image 20251025113340.png]]
+
+>[!info] Definition
+>**Fine tuning**: it means using a pre-trained model to make it perform a more specific task.
+>When we fine-tune a model we're not training it from scratch, we're simply training it on a small dataset only to adjust its weights, without changing anything in the architecture.
+>
+>PS: saying "pre-trained model" implies that it was trained on a very large dataset.
+
+
+![[Pasted image 20251025113702.png]]
 
 >[!info]
 >Transfer learning effectiveness changes with different architectures.
@@ -23,9 +32,25 @@ The core idea of this technique is to make the model use previously learned know
 >[!info]
 >Although, for CNN models it's usually way better to use transfer learning rather then re-learning everything from scratch.
 
+## Comparison: train from scratch vs transfer learning
+
+Using transfer learning gives an advantage on the performance, but we have to keep that it doesn't make the model intrinsically better, it only makes the learning process faster.
+
+For instance, let's take a look on this picture:
+![[Pasted image 20260426181021.png]]
+>[!info]
+In this graph, the x-axis is the training time (probably measured in epochs) and the y-axis is the performance (probably measured as accuracy?).
+
+As we can see the pre-trained model (gray line) isn't having a better performance asymptotically, but it reaches an optimal performance much faster compared to the basic model (purple line).
+
+>[!note]
+>Those "teeth" in  the graph happen when we experiment different learning rates. We do this because every now and then we want to see if lowering the learning rate improves performance while we're looking for the optimal one.
+
+
 >[!note] Personal note
 >There's a comparison between different architectures, but I'm skipping it for now.
 
+(CONTINUE FROM HERE)
 ## Residual networks
 
 Once we have Batch Normalization, we can train networks with 10+ layers.
