@@ -50,7 +50,6 @@ As we can see the pre-trained model (gray line) isn't having a better performanc
 >[!note] Personal note
 >There's a comparison between different architectures, but I'm skipping it for now.
 
-(CONTINUE FROM HERE)
 ## Residual networks
 
 Once we have Batch Normalization, we can train networks with 10+ layers.

@@ -25,8 +25,8 @@ For each object predict:
 ## Multi-Task Learning
 
 - MTL biases the model to prefer representations that other tasks also prefer.
-- This will also help the model to generalize to new tasks in the future as a hypothesis space that performs well for a sufficiently large number of training tasks and will also perform well for learning novel tasks
-- Acts as a regularization
+- This will also help the model to generalize to new tasks in the future as a hypothesis space that performs well for a sufficiently large number of training tasks will also perform well for learning novel tasks
+- Acts as regularization
 - No more one-directional transfer but a symmetric two-directional transfer.
 
 ## Detecting a single object
@@ -97,6 +97,7 @@ A way to address this issue is to use **Non-Max Suppression (NMS)**:
 3. Mean Average Precision (mAP) = average of AP for each category
 ![[Pasted image 20260305152930.png]]
 
+(CONTINUE FROM HERE)
 ## Fast R-CNN
 
 It's a variant of R-CNN designed to be faster than regular R-CNN. The idea is to run CNN before warping.
