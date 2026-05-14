@@ -32,8 +32,45 @@ So, to reduce costs (and waste of resources) **downsampling** and **upsampling**
 
 **Problem**: we know how to manage downsampling but not how to manage upsampling.
 
->[!todo]
->From page 11 to page 26 we can see how we can perform upsampling. Since I wanna rush I won't make notes on this.
+
+### In-network upsampling
+#### "unpooling"
+
+>[!Question]
+>This is asked in the exam maybe.
+>Does pooling have learnable parameters? The answer is no.
+>Does unpooling have learnable parameters? The answer is again no.
+
+There are two approaches to perform unpooling:
+![[Pasted image 20260430152806.png]]
+
+#### Bilinear interpolation
+
+![[Pasted image 20260430153045.png]]
+
+#### Bicubic interpolation
+
+![[Pasted image 20260430153120.png]]
+
+#### "Max unpooling"
+
+![[Pasted image 20260430153222.png]]
+
+### Learnable upsampling: transpose convolution
+
+![[Pasted image 20260430154043.png]]
+
+![[Pasted image 20260430154059.png]]
+
+#### Transpose convolution: 1D example
+
+![[Pasted image 20260430154145.png]]
+
+Other names:
+- Deconvolution (bad)
+- Upconvolution
+- Fractionally strided convolution
+- Backward strided convolution
 
 # Computer vision tasks
 ![[Pasted image 20260306160428.png]]
@@ -51,10 +88,15 @@ So, to reduce costs (and waste of resources) **downsampling** and **upsampling**
 ## Beyond instance segmentation
 ![[Pasted image 20260306161343.png]]
 
->[!todo]
+## Panoptic segmentation
+
+It labels all the pixels in the image (both things and stuff), but also differentiates between the instances of the things. It's basically a fusion of semantic segmentation and instance segmentation.
+
+![[Pasted image 20260430161907.png]]
+
+>[!note] Personal note
 >There are also other CV tasks that I'm skipping for now.
 >They are:
->- Panoptic segmentation.
 >- Human keypoints.
 >- Joint instance segmentation and pose estimation.
 >- Dense captioning.
