@@ -153,7 +153,7 @@ They behave similarly only under certain conditions, for example, if we have man
 
 Cross validation is a technique that helps us improve the model performance by dividing the input data into two parts:
 - **training data**: the data we actually use to train the model;
-- **validation data**: the data we use to asses the model performance, in other words, we simulate how the model will generalize future data.
+- **validation data**: the data we use to assess the model performance, in other words, we simulate how the model will generalize future data.
 
 A pretty powerful variant of this technique is **k-fold cross validation**.
 
